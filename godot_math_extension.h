@@ -1,5 +1,6 @@
 #include "scene/3d/skeleton.h"
 #include "scene/3d/camera.h"
+#include "core/math/math_funcs.h"
 
 #define GME_MATH_TAU 3.14159265358979323846 * 2
 
@@ -200,6 +201,7 @@ public:
 	real_t clamp_angle(real_t val, real_t ang_min, real_t ang_max);
 	Vector3 adjust_facing(const Vector3 &p_facing, const Vector3 &p_target, const real_t &p_step, const real_t &p_adjust_rate, const Vector3& p_current_gn);
 	Transform rotate_around(Transform p_transform, Vector3 p_point, Vector3 p_axis, real_t p_angle);
+	float base_log(float a, float new_base);
 
 	_GodotMathExtension();
 };

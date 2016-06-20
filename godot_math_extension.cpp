@@ -14,14 +14,11 @@ void _GodotMathExtension::_bind_methods() {
 
 	ObjectTypeDB::bind_method(_MD("camera_get_position_distance", "camera", "pos"), &_GodotMathExtension::camera_get_position_distance);
 	//ObjectTypeDB::bind_method(_MD("get_2d_position_from_3d_position_with_screen_limits:Vector2", "camera", "position_3d", "screen_size", "screen_center", "screen_mins", "screen_max"), &_GodotMathExtension::get_2d_position_from_3d_position_with_screen_limits);
-
 	ObjectTypeDB::bind_method(_MD("get_2d_position_from_3d_position:Vector2", "camera", "position_3d"), &_GodotMathExtension::get_2d_position_from_3d_position);
-
 	ObjectTypeDB::bind_method(_MD("clamp_angle", "val", "ang_min", "ang_max"), &_GodotMathExtension::clamp_angle);
-
 	ObjectTypeDB::bind_method(_MD("adjust_facing:Vector3", "facing", "target", "step", "adjust_rate", "current_gn"), &_GodotMathExtension::adjust_facing);
-
 	ObjectTypeDB::bind_method(_MD("rotate_around:Transform", "transform", "point", "axis", "angle"), &_GodotMathExtension::rotate_around);
+	ObjectTypeDB::bind_method(_MD("base_log:float", "float", "float"), &_GodotMathExtension::base_log);
 
 	BIND_CONSTANT(GME_MATH_TAU);
 }
@@ -102,6 +99,17 @@ Vector3 _GodotMathExtension::adjust_facing(const Vector3 &p_facing, const Vector
 Transform _GodotMathExtension::rotate_around(Transform p_transform, Vector3 p_point, Vector3 p_axis, real_t p_angle) {
 	return GodotMathExtension::rotate_around(p_transform, p_point, p_axis, p_angle);
 };
+
+float _GodotMathExtension::base_log(float a, float new_base) {
+	if (new_base == 1.0) {
+		return NAN;
+	}
+	if (a != 1.0 && (new_base == 0.0 || Math::is_inf(new_base))) {
+		return NAN;
+	}
+		
+	return Math::log(a) / Math::log(new_base);
+}
 
 _GodotMathExtension::_GodotMathExtension() {
 	singleton = this;
