@@ -171,6 +171,14 @@ public:
 
 		return p_transform.rotated(p_axis, p_angle * 0.0174532924f);
 	}
+
+	static _FORCE_INLINE_ Vector3 transform_directon_vector(const Vector3 &p_direction, const Matrix3 &p_basis) {
+		return Vector3(
+			((p_basis.elements[0].x * p_direction.x) + (p_basis.elements[1].x * p_direction.y) + (p_basis.elements[2].x * p_direction.z)),
+			((p_basis.elements[0].y * p_direction.x) + (p_basis.elements[1].y * p_direction.y) + (p_basis.elements[2].y * p_direction.z)),
+			((p_basis.elements[0].z * p_direction.x) + (p_basis.elements[1].z * p_direction.y) + (p_basis.elements[2].z * p_direction.z))
+			);
+	}
 };
 
 class _GodotMathExtension : public Object {
@@ -202,6 +210,7 @@ public:
 	Vector3 adjust_facing(const Vector3 &p_facing, const Vector3 &p_target, const real_t &p_step, const real_t &p_adjust_rate, const Vector3& p_current_gn);
 	Transform rotate_around(Transform p_transform, Vector3 p_point, Vector3 p_axis, real_t p_angle);
 	float base_log(float a, float new_base);
+	Vector3 transform_directon_vector(const Vector3 &p_direction, const Matrix3 &p_basis);
 
 	_GodotMathExtension();
 };

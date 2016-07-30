@@ -19,6 +19,7 @@ void _GodotMathExtension::_bind_methods() {
 	ObjectTypeDB::bind_method(_MD("adjust_facing:Vector3", "facing", "target", "step", "adjust_rate", "current_gn"), &_GodotMathExtension::adjust_facing);
 	ObjectTypeDB::bind_method(_MD("rotate_around:Transform", "transform", "point", "axis", "angle"), &_GodotMathExtension::rotate_around);
 	ObjectTypeDB::bind_method(_MD("base_log:float", "float", "float"), &_GodotMathExtension::base_log);
+	ObjectTypeDB::bind_method(_MD("transform_directon_vector:Vector3", "direction", "basis"), &_GodotMathExtension::transform_directon_vector);
 
 	BIND_CONSTANT(GME_MATH_TAU);
 }
@@ -109,6 +110,10 @@ float _GodotMathExtension::base_log(float a, float new_base) {
 	}
 		
 	return Math::log(a) / Math::log(new_base);
+}
+
+Vector3 _GodotMathExtension::transform_directon_vector(const Vector3 &p_direction, const Matrix3 &p_basis) {
+	return GodotMathExtension::transform_directon_vector(p_direction, p_basis);
 }
 
 _GodotMathExtension::_GodotMathExtension() {
