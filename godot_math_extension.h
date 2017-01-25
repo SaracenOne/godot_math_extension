@@ -74,7 +74,7 @@ public:
 		const Vector2 &screen_mins, const Vector2 &screen_max) {
 
 		bool is_behind = camera_get_position_distance(p_camera, p_position_3d) < 0;
-		
+
 		Vector2 screen_pos = p_camera->unproject_position(p_position_3d);
 
 		Vector2 screen_bounds_min = screen_center - screen_mins;
@@ -102,12 +102,12 @@ public:
 			real_t angle_sin = sin(angle);
 
 			real_t m = angle_cos / angle_sin;
-			
+
 			if (angle_cos > 0)
 				screen_pos = Vector2(screen_bounds_min.y / m, screen_bounds_min.y);
 			else
 				screen_pos = Vector2(-screen_bounds_max.y / m, -screen_bounds_max.y);
-		
+
 			if (screen_pos.x > screen_bounds_max.x)
 				screen_pos = Vector2(screen_bounds_max.x, screen_bounds_max.x*m);
 			else if(screen_pos.x < -screen_bounds_min.x)
@@ -141,18 +141,17 @@ public:
 
 		real_t ang = atan2(y, x);
 
-		if (abs(ang) < 0.001)
+		if (Math::abs(ang) < 0.001)
 			return p_facing;
 
 		real_t s = ang < 0.0 ? -1.0 : (ang > 0.0 ? +1.0 : 0.0); // Sign
 		ang = ang * s;
 		real_t turn = ang * p_adjust_rate * p_step;
 		real_t a;
-		
+
 		if (ang < turn) {
 			a = ang;
-		}
-		else {
+		} else {
 			a = turn;
 		}
 
@@ -163,9 +162,7 @@ public:
 
 	static _FORCE_INLINE_ Transform rotate_around(Transform p_transform, Vector3 p_point, Vector3 p_axis, real_t p_angle) {
 		Vector3 vector = p_transform.origin;
-		Quat rotation = Quat(p_axis, p_angle);
 		Vector3 vector2 = vector - p_point;
-		Quat quat = rotation * vector2;
 		vector = p_point + vector2;
 		p_transform.origin = vector;
 
