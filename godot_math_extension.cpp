@@ -18,6 +18,7 @@ void _GodotMathExtension::_bind_methods() {
 	ObjectTypeDB::bind_method(_MD("clamp_angle", "val", "ang_min", "ang_max"), &_GodotMathExtension::clamp_angle);
 	ObjectTypeDB::bind_method(_MD("adjust_facing:Vector3", "facing", "target", "step", "adjust_rate", "current_gn"), &_GodotMathExtension::adjust_facing);
 	ObjectTypeDB::bind_method(_MD("rotate_around:Transform", "transform", "point", "axis", "angle"), &_GodotMathExtension::rotate_around);
+	ObjectTypeDB::bind_method(_MD("inverse_lerp", "from", "to", "weight"), &_GodotMathExtension::inverse_lerp);
 	ObjectTypeDB::bind_method(_MD("base_log:float", "float", "float"), &_GodotMathExtension::base_log);
 	ObjectTypeDB::bind_method(_MD("transform_directon_vector:Vector3", "direction", "basis"), &_GodotMathExtension::transform_directon_vector);
 
@@ -99,6 +100,10 @@ Vector3 _GodotMathExtension::adjust_facing(const Vector3 &p_facing, const Vector
 
 Transform _GodotMathExtension::rotate_around(Transform p_transform, Vector3 p_point, Vector3 p_axis, real_t p_angle) {
 	return GodotMathExtension::rotate_around(p_transform, p_point, p_axis, p_angle);
+};
+
+real_t _GodotMathExtension::inverse_lerp(real_t p_from, real_t p_to, real_t p_weight) {
+	return GodotMathExtension::inverse_lerp(p_from, p_to, p_weight);
 };
 
 float _GodotMathExtension::base_log(float a, float new_base) {

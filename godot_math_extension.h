@@ -26,9 +26,9 @@ public:
 	};
 
 	static _FORCE_INLINE_ Quat quat_from_radians(Vector3 p_radians) {
-		real_t pitch_radians = p_radians.x * 0.5;
-		real_t yaw_radians = p_radians.y * 0.5;
-		real_t roll_radians = p_radians.z * 0.5;
+		real_t pitch_radians = p_radians.x * 0.5f;
+		real_t yaw_radians = p_radians.y * 0.5f;
+		real_t roll_radians = p_radians.z * 0.5f;
 
 		real_t sin_pitch = sin(pitch_radians);
 		real_t cos_pitch = cos(pitch_radians);
@@ -43,11 +43,11 @@ public:
 	};
 
 	static _FORCE_INLINE_ real_t ease_in(real_t t) {
-		return sin(t * Math_PI * 0.5);
+		return sin(t * Math_PI * 0.5f);
 	}
 
 	static _FORCE_INLINE_ real_t ease_out(real_t t) {
-		return cos(t * Math_PI * 0.5);
+		return cos(t * Math_PI * 0.5f);
 	}
 
 	static _FORCE_INLINE_ real_t exponetial(real_t t) {
@@ -55,11 +55,11 @@ public:
 	}
 
 	static _FORCE_INLINE_ real_t smooth_step(real_t t) {
-		return t * t * (3.0 - 2.0 * t);
+		return t * t * (3.0f - 2.0f * t);
 	}
 
 	static _FORCE_INLINE_ real_t smoother_step(real_t t) {
-		return t * t * t * (t * (6.0 * t - 15.0) + 10.0);
+		return t * t * t * (t * (6.0f * t - 15.0f) + 10.0f);
 	}
 
 	static _FORCE_INLINE_ real_t camera_get_position_distance(const Camera *p_camera, const Vector3 &p_pos) {
@@ -73,7 +73,7 @@ public:
 		const Vector2 &screen_size, const Vector2 &screen_center,
 		const Vector2 &screen_mins, const Vector2 &screen_max) {
 
-		bool is_behind = camera_get_position_distance(p_camera, p_position_3d) < 0;
+		bool is_behind = camera_get_position_distance(p_camera, p_position_3d) < 0.0f;;
 
 		Vector2 screen_pos = p_camera->unproject_position(p_position_3d);
 
@@ -86,24 +86,24 @@ public:
 			return Vector2();
 		}
 		else {
-			int rotation = 270;
+			int rotation = 270.0f;
 
 			if (is_behind == true)
-				rotation = 90;
+				rotation = 90.0f;
 			else
-				rotation = 270;
+				rotation = 270.0f;
 
 			screen_pos = screen_pos - screen_center;
 
 			real_t angle = atan2(screen_pos.y, screen_pos.x);
-			angle = angle - rotation * ((Math_PI * 2) / 360);
+			angle = angle - rotation * ((Math_PI * 2.0f) / 360.0f);
 
 			real_t angle_cos = cos(angle);
 			real_t angle_sin = sin(angle);
 
 			real_t m = angle_cos / angle_sin;
 
-			if (angle_cos > 0)
+			if (angle_cos > 0.0f)
 				screen_pos = Vector2(screen_bounds_min.y / m, screen_bounds_min.y);
 			else
 				screen_pos = Vector2(-screen_bounds_max.y / m, -screen_bounds_max.y);
@@ -125,10 +125,10 @@ public:
 	}
 
 	static _FORCE_INLINE_ real_t clamp_angle(real_t val, real_t ang_min, real_t ang_max) {
-		if (val < -360)
-			val += 360;
-		if (val > 360)
-			val -= 360;
+		if (val < -360.0f)
+			val += 360.0f;
+		if (val > 360.0f)
+			val -= 360.0f;
 		return CLAMP(val, ang_min, ang_max);
 	}
 
@@ -141,10 +141,10 @@ public:
 
 		real_t ang = atan2(y, x);
 
-		if (Math::abs(ang) < 0.001)
+		if (Math::abs(ang) < 0.001f)
 			return p_facing;
 
-		real_t s = ang < 0.0 ? -1.0 : (ang > 0.0 ? +1.0 : 0.0); // Sign
+		real_t s = ang < 0.0f ? -1.0f : (ang > 0.0f ? + 1.0f : 0.0f); // Sign
 		ang = ang * s;
 		real_t turn = ang * p_adjust_rate * p_step;
 		real_t a;
@@ -168,6 +168,10 @@ public:
 
 		return p_transform.rotated(p_axis, p_angle * 0.0174532924f);
 	}
+
+	static _FORCE_INLINE_ real_t inverse_lerp(real_t p_from, real_t p_to, real_t p_weight) {
+		return CLAMP((p_weight - p_from) / (p_to - p_from), 0.0f, 1.0f);
+	};
 
 	static _FORCE_INLINE_ Vector3 transform_directon_vector(const Vector3 &p_direction, const Matrix3 &p_basis) {
 		return Vector3(
@@ -206,6 +210,7 @@ public:
 	real_t clamp_angle(real_t val, real_t ang_min, real_t ang_max);
 	Vector3 adjust_facing(const Vector3 &p_facing, const Vector3 &p_target, const real_t &p_step, const real_t &p_adjust_rate, const Vector3& p_current_gn);
 	Transform rotate_around(Transform p_transform, Vector3 p_point, Vector3 p_axis, real_t p_angle);
+	real_t inverse_lerp(real_t p_from, real_t p_to, real_t p_weight);
 	float base_log(float a, float new_base);
 	Vector3 transform_directon_vector(const Vector3 &p_direction, const Matrix3 &p_basis);
 
